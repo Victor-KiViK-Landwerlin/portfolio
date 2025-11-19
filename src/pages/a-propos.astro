@@ -1,10 +1,12 @@
 ---
+// src/pages/a-propos.astro
 import Layout from '../layouts/Layout.astro';
+import Logo from '../components/Logo.astro';
 ---
 
 <Layout title="À propos" currentPath="/a-propos">
   <!-- Titre de la page -->
-  <section class="py-20 px-6">
+  <section class="py-5">
     <div class="container mx-auto max-w-6xl">
       <h1 class="text-8xl font-bold text-kivik-green text-center mb-20">
         À propos
@@ -20,10 +22,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <!-- Logo -->
         <div class="flex justify-center">
-          <svg class="w-80 h-80" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="90" stroke="#057020" stroke-width="12"/>
-            <path d="M100 30 L100 170 M100 100 L150 65 M100 100 L150 135" stroke="#057020" stroke-width="12" stroke-linecap="round"/>
-          </svg>
+          <Logo size="xlarge" animated={true} />
         </div>
 
         <!-- Texte de présentation -->

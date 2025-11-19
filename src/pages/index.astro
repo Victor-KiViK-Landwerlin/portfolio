@@ -1,43 +1,74 @@
 ---
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Logo from '../components/Logo.astro';
+import { getProjects, pb } from '../lib/pocketbase';
 
-// Projets en dur pour l'instant (à remplacer par PocketBase)
-const recentProjects = [
+// Récupérer les 2 projets les plus récents
+const allProjects = await getProjects();
+const recentProjects = allProjects.slice(0, 2);
+
+// Fallback si PocketBase n'est pas configuré
+const fallbackProjects = [
   {
+    id: null,
     title: "INKSPIRE",
     slug: "inkspire",
     image: "/images/inkspire.jpg",
     tags: ["Design", "Branding"]
   },
   {
+    id: null,
     title: "FAMILLE D'HIER",
     slug: "famille-dhier",
     image: "/images/famille-dhier.jpg",
     tags: ["Webdesign", "Editorial"]
   }
 ];
+
+const displayProjects = recentProjects.length > 0 ? recentProjects : fallbackProjects;
 ---
 
 <Layout title="Accueil" currentPath="/">
-  <!-- Hero Section -->
-  <section class="min-h-[70vh] flex items-center justify-center px-6">
-    <div class="text-center">
-      <h1 class="text-8xl font-bold mb-4">
-        <span class="text-kivik-green">Victor</span>
-      </h1>
-      <div class="text-7xl font-bold mb-6 tracking-wider">
-        <span class="text-kivik-light">Ki</span><span class="text-kivik-green">Vi</span><span class="text-kivik-light">K</span><span class="text-kivik-green">i</span>
-        <span class="text-kivik-light">ViK</span><span class="text-kivik-green">i</span>
-      </div>
-      <h2 class="text-5xl font-bold text-kivik-green">
-        Landwerlin
-      </h2>
-      <p class="mt-6 text-xl text-kivik-green/80">
-        Identité visuelle · Webdesign · Datavisualisation
-      </p>
-    </div>
-  </section>
+ <!-- Hero Section -->
+<section 
+  class="relative min-h-[70vh] flex flex-col items-center justify-center px-6 overflow-hidden"
+>
+
+  <!-- WATERMARK CENTRÉ EXACTEMENT -->
+  <img 
+    src="/watermark.svg"
+    alt=""
+    class="absolute
+           w-[180%] opacity-20 pointer-events-none z-10"
+  />
+
+  <!-- Victor -->
+  <h1 class="text-7xl font-bold text-kivik-green mb-4">
+    Victor
+  </h1>
+
+  <!-- KiViK EXACTEMENT COMME TA MAQUETTE -->
+  <div class="text-[6rem] font-bold tracking-wide leading-none">
+    <span class="text-kivik-light -mr-7">KiVi</span>
+    <span class="text-kivik-green">KiViK</span>
+    <span class="text-kivik-light -ml-7">iViK</span>
+  </div>
+
+  <!-- Landwerlin -->
+  <h2 class="text-5xl font-bold text-kivik-green mt-4">
+    Landwerlin
+  </h2>
+
+  <!-- baseline -->
+  <p class="mt-6 text-xl text-kivik-green/80">
+    Identité visuelle · Webdesign · Datavisualisation
+  </p>
+
+</section>
+
+
 
   <!-- Présentation -->
   <section class="py-20 px-6">
@@ -47,10 +78,7 @@ const recentProjects = [
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <!-- Logo -->
         <div class="flex justify-center">
-          <svg class="w-64 h-64" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="90" stroke="#057020" stroke-width="12"/>
-            <path d="M100 30 L100 170 M100 100 L150 65 M100 100 L150 135" stroke="#057020" stroke-width="12" stroke-linecap="round"/>
-          </svg>
+          <Logo size="xlarge" animated={true} />
         </div>
 
         <!-- Texte de présentation -->
@@ -74,25 +102,49 @@ const recentProjects = [
     <div class="container mx-auto max-w-6xl">
       <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Projets récents</h2>
       
-      <div class="grid md:grid-cols-2 gap-8 mb-12">
-        {recentProjects.map((project) => (
-          <ProjectCard 
-            title={project.title}
-            image={project.image}
-            slug={project.slug}
-            tags={project.tags}
-          />
-        ))}
-      </div>
+      {displayProjects.length === 0 ? (
+        <div class="text-center py-20">
+          <p class="text-2xl text-kivik-green/60">Aucun projet disponible.</p>
+          <p class="mt-4 text-kivik-green/40">Configure PocketBase pour afficher tes projets !</p>
+        </div>
+      ) : (
+        <>
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            {displayProjects.map((project) => {
+              // Obtenir l'URL de l'image correctement
+              let imageUrl = '/images/placeholder.jpg';
+              
+              if (project.image) {
+                if (project.id && project.collectionId) {
+                  // Image depuis PocketBase
+                  imageUrl = `http://127.0.0.1:8090/api/files/${project.collectionId}/${project.id}/${project.image}`;
+                } else {
+                  // Image locale (fallback)
+                  imageUrl = project.image;
+                }
+              }
+              
+              return (
+                <ProjectCard 
+                  title={project.title}
+                  image={imageUrl}
+                  slug={project.slug}
+                  tags={project.tags || []}
+                />
+              );
+            })}
+          </div>
 
-      <div class="text-center">
-        <a 
-          href="/projets"
-          class="inline-block px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
-        >
-          voir plus
-        </a>
-      </div>
+          <div class="text-center">
+            <a 
+              href="/projets"
+              class="inline-block px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+            >
+              voir plus
+            </a>
+          </div>
+        </>
+      )}
     </div>
   </section>
 </Layout>

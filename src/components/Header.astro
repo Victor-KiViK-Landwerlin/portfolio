@@ -1,4 +1,7 @@
 ---
+// src/components/Header.astro
+import Logo from './Logo.astro';
+
 const { currentPath = "/" } = Astro.props;
 
 const navItems = [
@@ -12,11 +15,8 @@ const navItems = [
   <nav class="container mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
       <!-- Logo -->
-      <a href="/" class="flex items-center">
-        <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="45" stroke="#057020" stroke-width="8"/>
-          <path d="M50 20 L50 80 M50 50 L75 35 M50 50 L75 65" stroke="#057020" stroke-width="8" stroke-linecap="round"/>
-        </svg>
+      <a href="/" class="flex items-center hover:opacity-80 transition-opacity">
+        <Logo size="small" animated={true} />
       </a>
 
       <!-- Navigation -->

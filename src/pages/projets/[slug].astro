@@ -1,10 +1,33 @@
 ---
+// src/pages/projets/[slug].astro
 import Layout from '../../layouts/Layout.astro';
+import { getProjectBySlug, getProjects, pb } from '../../lib/pocketbase';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  
+  // Fallback si PocketBase n'est pas configuré
+  const fallbackProjects = [
+    { slug: "famille-dhier" },
+    { slug: "inkspire" },
+    { slug: "lazydocs" },
+    { slug: "ijf" }
+  ];
+  
+  const projectsToUse = projects.length > 0 ? projects : fallbackProjects;
+  
+  return projectsToUse.map((project) => ({
+    params: { slug: project.slug },
+  }));
+}
 
 const { slug } = Astro.params;
 
-// Données exemple (à remplacer par PocketBase)
-const projectsData: Record<string, any> = {
+// Récupérer le projet depuis PocketBase
+let project = await getProjectBySlug(slug as string);
+
+// Données fallback si PocketBase n'est pas configuré
+const fallbackData: Record<string, any> = {
   "famille-dhier": {
     title: "Famille d'Hier",
     description: "Projet individuel réalisé en MMI1 S1.\nUne direction artistique simple et symbolique : formes géométriques naïves, pictogrammes familiaux, typographies manuelles. Comme une IA du futur essayait de représenter \"la famille\" de manière universelle.",
@@ -16,31 +39,41 @@ const projectsData: Record<string, any> = {
       "/images/famille-dhier-3.jpg",
       "/images/famille-dhier-4.jpg"
     ],
-    content: [
-      {
-        text: "Chaque élément culturel (film, livre, chanson) a été traité comme une \"preuve\" à documenter.\nL'objectif était de construire un système d'archives froid et analytique, où l'émotion se transforme en objet de musée.\nL'arborescence est volontairement réduite : une page = une couche de mémoire."
-      },
-      {
-        images: ["/images/famille-dhier-mockup.jpg"]
-      },
-      {
-        text: "Un site éditorial pensé mobile-first, lisible et fonctionnel.\nLe projet raconte une idée avant tout : un discours visuel et narratif cohérent, plus qu'une démonstration technique."
-      }
-    ],
-    conclusion: "Ce projet m'a appris à structurer un discours visuel et éditorial de A à Z, et à privilégier le sens et la cohérence plutôt que la complexité technique."
+    content: "Chaque élément culturel (film, livre, chanson) a été traité comme une \"preuve\" à documenter.\n\nL'objectif était de construire un système d'archives froid et analytique, où l'émotion se transforme en objet de musée.\n\nUn site éditorial pensé mobile-first, lisible et fonctionnel.\n\nLe projet raconte une idée avant tout : un discours visuel et narratif cohérent, plus qu'une démonstration technique.",
+    year: "2024"
   }
 };
 
-const project = projectsData[slug as string];
+// Utiliser fallback si pas de projet PocketBase
+if (!project) {
+  project = fallbackData[slug as string];
+}
 
 if (!project) {
   return Astro.redirect('/404');
 }
+
+// Fonction pour obtenir l'URL de l'image
+function getImageUrl(filename: string) {
+  if (!filename) return '/images/placeholder.jpg';
+  if (filename.startsWith('http') || filename.startsWith('/')) return filename;
+  
+  // Si on a un projet depuis PocketBase avec collectionId
+  if (project.id && project.collectionId) {
+    return `http://127.0.0.1:8090/api/files/${project.collectionId}/${project.id}/${filename}`;
+  }
+  
+  return filename;
+}
+
+// Obtenir les images
+const mainImage = getImageUrl(project.image);
+const galleryImages = project.images?.map((img: string) => getImageUrl(img)) || [];
 ---
 
 <Layout title={project.title} currentPath={`/projets/${slug}`}>
   <!-- Titre du projet -->
-  <section class="py-20 px-6">
+  <section class="py-5">
     <div class="container mx-auto max-w-6xl">
       <h1 class="text-8xl font-bold text-kivik-green text-center mb-8">
         {project.title}
@@ -51,82 +84,78 @@ if (!project) {
   <!-- Description principale -->
   <section class="py-12 px-6">
     <div class="container mx-auto max-w-4xl">
-      <h2 class="text-4xl font-bold text-kivik-green mb-8 text-center">{project.title}</h2>
-      
       <div class="space-y-4 text-lg mb-8">
-        {project.description.split('\n').map((line: string) => (
-          <p class="text-kivik-green">{line}</p>
+        {project.description && project.description.split('\n').map((line: string) => (
+          line.trim() && <p class="text-kivik-green">{line}</p>
         ))}
       </div>
 
-      <p class="text-base text-kivik-green/80 italic">
-        {project.role}
-      </p>
+      {project.role && (
+        <p class="text-base text-kivik-green/80 italic">
+          {project.role}
+        </p>
+      )}
+
+      {(project.tools || project.year) && (
+        <div class="mt-6 flex flex-wrap gap-4 text-sm text-kivik-green/60">
+          {project.year && <span>Année : {project.year}</span>}
+          {project.tools && <span>Outils : {project.tools.join(', ')}</span>}
+        </div>
+      )}
     </div>
   </section>
 
   <!-- Image principale -->
-  <section class="py-12 px-6 bg-amber-100/30">
-    <div class="container mx-auto max-w-4xl">
-      <div class="relative aspect-video bg-white p-8">
-        <img 
-          src={project.image}
-          alt={project.title}
-          class="w-full h-full object-contain"
-        />
+  {mainImage && (
+    <section class="py-12 px-6 bg-amber-100/30">
+      <div class="container mx-auto max-w-4xl">
+        <div class="relative aspect-video bg-white p-8">
+          <img 
+            src={mainImage}
+            alt={project.title}
+            class="w-full h-full object-contain"
+          />
+        </div>
+        
+        {project.content && (
+          <div class="mt-8 text-lg text-kivik-green space-y-4">
+            {project.content.split('\n').map((line: string) => (
+              line.trim() && <p>{line}</p>
+            ))}
+          </div>
+        )}
       </div>
-      
-      <div class="mt-8 text-lg text-kivik-green space-y-4">
-        {project.content[0].text.split('\n').map((line: string) => (
-          <p>{line}</p>
-        ))}
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
   <!-- Grille d'images -->
-  <section class="py-12 px-6">
-    <div class="container mx-auto max-w-6xl">
-      <div class="grid md:grid-cols-2 gap-6">
-        {project.images?.map((img: string) => (
-          <div class="bg-white p-4 border-2 border-kivik-green">
-            <img 
-              src={img}
-              alt={project.title}
-              class="w-full h-auto"
-            />
-          </div>
-        ))}
+  {galleryImages.length > 0 && (
+    <section class="py-12 px-6">
+      <div class="container mx-auto max-w-6xl">
+        <div class="grid md:grid-cols-2 gap-6">
+          {galleryImages.map((img: string) => (
+            <div class="bg-white p-4 border-2 border-kivik-green">
+              <img 
+                src={img}
+                alt={project.title}
+                class="w-full h-auto"
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <!-- Texte complémentaire -->
-  <section class="py-12 px-6 bg-white/30">
-    <div class="container mx-auto max-w-4xl">
-      <div class="text-lg text-kivik-green space-y-4">
-        {project.content[2]?.text.split('\n').map((line: string) => (
-          <p>{line}</p>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Conclusion -->
+  <!-- Bouton contact -->
   <section class="py-12 px-6 pb-20">
-    <div class="container mx-auto max-w-4xl">
-      <p class="text-lg text-kivik-green italic">
-        {project.conclusion}
-      </p>
-
-      <div class="mt-12 text-center">
-        <a 
-          href="/contact"
-          class="inline-block px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
-        >
-          me contacter
-        </a>
-      </div>
+    <div class="container mx-auto max-w-4xl text-center">
+      <a 
+        href="/contact"
+        class="inline-block px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+      >
+        me contacter
+      </a>
     </div>
   </section>
 </Layout>
