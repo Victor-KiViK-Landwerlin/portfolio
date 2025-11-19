@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+// Projets en dur pour l'instant (à remplacer par PocketBase)
+const projects = [
+  {
+    title: "INKSPIRE",
+    slug: "inkspire",
+    image: "/images/inkspire.jpg",
+    tags: ["Design", "Branding"]
+  },
+  {
+    title: "FAMILLE D'HIER",
+    slug: "famille-dhier",
+    image: "/images/famille-dhier.jpg",
+    tags: ["Webdesign", "Editorial"]
+  },
+  {
+    title: "LAZYDOCS",
+    slug: "lazydocs",
+    image: "/images/lazydocs.jpg",
+    tags: ["UI/UX", "App"]
+  },
+  {
+    title: "IJF",
+    slug: "ijf",
+    image: "/images/ijf.jpg",
+    tags: ["Branding", "Identity"]
+  }
+];
+---
+
+<Layout title="Projets" currentPath="/projets">
+  <!-- Titre de la page -->
+  <section class="py-20 px-6">
+    <div class="container mx-auto max-w-6xl">
+      <h1 class="text-8xl font-bold text-kivik-green text-center mb-8">
+        Projets
+      </h1>
+    </div>
+  </section>
+
+  <!-- Liste des projets -->
+  <section class="py-12 px-6 pb-20">
+    <div class="container mx-auto max-w-6xl">
+      <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Mes projets</h2>
+      
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        {projects.map((project) => (
+          <ProjectCard 
+            title={project.title}
+            image={project.image}
+            slug={project.slug}
+            tags={project.tags}
+          />
+        ))}
+      </div>
+
+      <div class="text-center">
+        <a 
+          href="/contact"
+          class="inline-block px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+        >
+          me contacter
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

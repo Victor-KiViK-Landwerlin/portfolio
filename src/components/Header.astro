@@ -1,0 +1,39 @@
+---
+const { currentPath = "/" } = Astro.props;
+
+const navItems = [
+  { name: "À propos", href: "/a-propos" },
+  { name: "Contact", href: "/contact" },
+  { name: "Projets", href: "/projets" },
+];
+---
+
+<header class="fixed top-0 left-0 w-full z-50 bg-kivik-cream/95 backdrop-blur-sm">
+  <nav class="container mx-auto px-6 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <a href="/" class="flex items-center">
+        <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="#057020" stroke-width="8"/>
+          <path d="M50 20 L50 80 M50 50 L75 35 M50 50 L75 65" stroke="#057020" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+      </a>
+
+      <!-- Navigation -->
+      <ul class="flex gap-8">
+        {navItems.map((item) => (
+          <li>
+            <a 
+              href={item.href}
+              class={`text-lg font-medium transition-colors hover:text-kivik-green ${
+                currentPath === item.href ? "text-kivik-green font-bold" : "text-kivik-green/70"
+              }`}
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</header>

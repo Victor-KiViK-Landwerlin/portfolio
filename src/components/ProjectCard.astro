@@ -1,0 +1,39 @@
+---
+interface Props {
+  title: string;
+  image: string;
+  slug: string;
+  tags?: string[];
+}
+
+const { title, image, slug, tags = [] } = Astro.props;
+---
+
+<a 
+  href={`/projets/${slug}`}
+  class="group block border-4 border-kivik-green rounded-none bg-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+>
+  <div class="p-6">
+    <h3 class="text-3xl font-bold text-kivik-green mb-4 uppercase">
+      {title}
+    </h3>
+    
+    <!-- Image du projet -->
+    <div class="relative aspect-video mb-4 overflow-hidden bg-kivik-light/20">
+      <img 
+        src={image} 
+        alt={title}
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <!-- Bouton "Voir le projet" -->
+    <div class="flex justify-center">
+      <div class="w-16 h-16 rounded-full border-4 border-kivik-green flex items-center justify-center group-hover:bg-kivik-green transition-colors">
+        <svg class="w-6 h-6 text-kivik-green group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</a>

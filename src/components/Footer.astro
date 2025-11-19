@@ -1,0 +1,53 @@
+---
+const socialLinks = [
+  { name: "Instagram", icon: "instagram", url: "https://instagram.com/votre_compte" },
+  { name: "LinkedIn", icon: "linkedin", url: "https://linkedin.com/in/votre_profil" },
+  { name: "Behance", icon: "behance", url: "https://behance.net/votre_profil" },
+  { name: "X", icon: "x", url: "https://x.com/votre_compte" },
+];
+---
+
+<footer class="bg-black text-white py-12">
+  <div class="container mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Contact -->
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Contact</h3>
+        <div class="space-y-2 text-sm">
+          <p>landwerlinvictor4@gmail.com</p>
+          <p>victor.landwerlin@edu.univ-fcomte.fr</p>
+          <p>0762792324</p>
+        </div>
+      </div>
+
+      <!-- Réseaux sociaux -->
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Réseaux</h3>
+        <div class="flex gap-4">
+          {socialLinks.map((social) => (
+            <a 
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-12 h-12 bg-white rounded-lg flex items-center justify-center hover:bg-kivik-light transition-colors"
+              aria-label={social.name}
+            >
+              <span class="text-black text-xl font-bold">
+                {social.icon === "instagram" && "📷"}
+                {social.icon === "linkedin" && "in"}
+                {social.icon === "behance" && "Bē"}
+                {social.icon === "x" && "𝕏"}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="mt-8 pt-8 border-t border-white/20 text-center text-sm">
+      <p>Identité visuelle · Webdesign · Datavisualisation</p>
+      <p class="mt-2">© 2025 KiViK — Victor Landwerlin</p>
+    </div>
+  </div>
+</footer>

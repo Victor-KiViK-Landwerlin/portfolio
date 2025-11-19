@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="À propos" currentPath="/a-propos">
+  <!-- Titre de la page -->
+  <section class="py-20 px-6">
+    <div class="container mx-auto max-w-6xl">
+      <h1 class="text-8xl font-bold text-kivik-green text-center mb-20">
+        À propos
+      </h1>
+    </div>
+  </section>
+
+  <!-- Présentation -->
+  <section class="py-12 px-6">
+    <div class="container mx-auto max-w-6xl">
+      <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Présentation</h2>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Logo -->
+        <div class="flex justify-center">
+          <svg class="w-80 h-80" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="90" stroke="#057020" stroke-width="12"/>
+            <path d="M100 30 L100 170 M100 100 L150 65 M100 100 L150 135" stroke="#057020" stroke-width="12" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <!-- Texte de présentation -->
+        <div class="space-y-6 text-lg">
+          <p class="text-kivik-green">
+            Je m'appelle Victor Landwerlin, aka <span class="font-bold">KiViK</span>.
+          </p>
+          <p class="text-kivik-green">
+            Mon terrain de jeu : l'identité visuelle, le webdesign et la dataviz.
+          </p>
+          <p class="text-kivik-green">
+            J'explore comment donner du sens aux formes, aux couleurs et aux chiffres.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compétences -->
+  <section class="py-20 px-6 bg-white/30">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Compétences</h2>
+      
+      <div class="space-y-6 text-2xl">
+        <div class="text-kivik-green font-bold">
+          Identité visuelle
+        </div>
+        <div class="text-kivik-green font-bold">
+          Webdesign (UI/UX)
+        </div>
+        <div class="text-kivik-green font-bold">
+          Datavisualisation
+        </div>
+        <div class="text-kivik-green font-medium mt-8">
+          Outils : Figma · Astro · Tailwind · Observable
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Boutons CTA -->
+  <section class="py-20 px-6">
+    <div class="container mx-auto max-w-4xl">
+      <div class="flex flex-wrap gap-6 justify-center">
+        <a 
+          href="/contact"
+          class="px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+        >
+          me contacter
+        </a>
+        <a 
+          href="/projets"
+          class="px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+        >
+          voir mes projets
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
