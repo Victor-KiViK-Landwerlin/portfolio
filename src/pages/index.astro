@@ -3,7 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Logo from '../components/Logo.astro';
-import { getProjects } from '../lib/pocketbase';
+import { getProjects, POCKETBASE_URL } from '../lib/pocketbase';
 
 const allProjects = await getProjects();
 const recentProjects = allProjects.slice(0, 2);
@@ -157,13 +157,15 @@ const displayProjects = recentProjects.length > 0 ? recentProjects : fallbackPro
           <div class="grid md:grid-cols-2 gap-8 mb-12">
             {displayProjects.map((project) => {
               let imageUrl = '/images/placeholder.jpg';
-              
-              if (project.image) {
-                if (project.id && project.collectionId) {
-                  imageUrl = `http://127.0.0.1:8090/api/files/${project.collectionId}/${project.id}/${project.image}`;
-                } else {
-                  imageUrl = project.image;
-                }
+            
+            if (project.image) {
+              if (project.collectionId && project.id) {
+                // Image depuis PocketBase
+                imageUrl = `${POCKETBASE_URL}/api/files/${project.collectionId}/${project.id}/${project.image}`;
+              } else {
+                // Image locale (fallback)
+                imageUrl = project.image;
+              }
               }
               
               return (
