@@ -1,11 +1,14 @@
 import PocketBase from 'pocketbase';
 import type { TypedPocketBase } from "./pocketbase-types";
-var path='';
-if(import.meta.env.MODE === 'development')
-    path = 'http://localhost:8090'    //localhost = machine de dev
-else path = 'https://portfolio.victor-landwerlin.fr:443'   //url du site 
-const pb = new PocketBase(path) as TypedPocketBase;
+
+// URL de PocketBase selon l'environnement
+export const POCKETBASE_URL = import.meta.env.MODE === 'development'
+  ? 'http://localhost:8090'
+  : 'https://portfolio.victor-landwerlin.fr:443';
+
+const pb = new PocketBase(POCKETBASE_URL) as TypedPocketBase;
 export default pb;
+export { pb };
 
 // Type pour les projets
 export interface Project {

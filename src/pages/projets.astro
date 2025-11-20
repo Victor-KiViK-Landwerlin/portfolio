@@ -2,7 +2,7 @@
 // src/pages/projets.astro
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { getProjects, pb } from '../lib/pocketbase';
+import { getProjects, POCKETBASE_URL } from '../lib/pocketbase';
 
 // Récupérer les projets depuis PocketBase
 const projects = await getProjects();
@@ -11,24 +11,31 @@ const projects = await getProjects();
 const fallbackProjects = [
   {
     id: "1",
+    collectionId: "",
     title: "INKSPIRE",
     slug: "inkspire",
     image: "/images/inkspire.jpg",
     tags: ["Design", "Branding"]
   },
   {
+    id: "2",
+    collectionId: "",
     title: "FAMILLE D'HIER",
     slug: "famille-dhier",
     image: "/images/famille-dhier.jpg",
     tags: ["Webdesign", "Editorial"]
   },
   {
+    id: "3",
+    collectionId: "",
     title: "LAZYDOCS",
     slug: "lazydocs",
     image: "/images/lazydocs.jpg",
     tags: ["UI/UX", "App"]
   },
   {
+    id: "4",
+    collectionId: "",
     title: "IJF",
     slug: "ijf",
     image: "/images/ijf.jpg",
@@ -67,9 +74,9 @@ const displayProjects = projects.length > 0 ? projects : fallbackProjects;
             let imageUrl = '/images/placeholder.jpg';
             
             if (project.image) {
-              if (project.id && project.collectionId) {
+              if (project.collectionId && project.id) {
                 // Image depuis PocketBase
-                imageUrl = `http://127.0.0.1:8090/api/files/${project.collectionId}/${project.id}/${project.image}`;
+                imageUrl = `${POCKETBASE_URL}/api/files/${project.collectionId}/${project.id}/${project.image}`;
               } else {
                 // Image locale (fallback)
                 imageUrl = project.image;

@@ -2,7 +2,7 @@
 // src/pages/projets/[slug].astro
 import Layout from '../../layouts/Layout.astro';
 import Logo from '../../components/Logo.astro';
-import { getProjectBySlug, getProjects } from '../../lib/pocketbase';
+import { getProjectBySlug, getProjects, POCKETBASE_URL } from '../../lib/pocketbase';
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -26,6 +26,8 @@ let project = await getProjectBySlug(slug as string);
 
 const fallbackData: Record<string, any> = {
   "famille-dhier": {
+    id: "1",
+    collectionId: "",
     title: "Famille d'Hier",
     description: "Projet individuel réalisé en MMI1 S1.\nUne direction artistique simple et symbolique : formes géométriques naïves, pictogrammes familiaux, typographies manuelles. Comme une IA du futur essayait de représenter \"la famille\" de manière universelle.",
     role: "Webdesign éditorial · Intégration HTML",
@@ -51,11 +53,11 @@ if (!project) {
 }
 
 function getImageUrl(filename: string) {
-  if (!filename) return '/images/placeholder.jpg';
+  if (!filename || !project) return '/images/placeholder.jpg';
   if (filename.startsWith('http') || filename.startsWith('/')) return filename;
   
-  if (project.id && project.collectionId) {
-    return `http://127.0.0.1:8090/api/files/${project.collectionId}/${project.id}/${filename}`;
+  if (project.collectionId && project.id) {
+    return `${POCKETBASE_URL}/api/files/${project.collectionId}/${project.id}/${filename}`;
   }
   
   return filename;
