@@ -3,13 +3,11 @@
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Logo from '../components/Logo.astro';
-import { getProjects, pb } from '../lib/pocketbase';
+import { getProjects } from '../lib/pocketbase';
 
-// Récupérer les 2 projets les plus récents
 const allProjects = await getProjects();
 const recentProjects = allProjects.slice(0, 2);
 
-// Fallback si PocketBase n'est pas configuré
 const fallbackProjects = [
   {
     id: null,
@@ -31,95 +29,139 @@ const displayProjects = recentProjects.length > 0 ? recentProjects : fallbackPro
 ---
 
 <Layout title="Accueil" currentPath="/">
- <!-- Hero Section -->
-<section 
-  class="relative min-h-[70vh] flex flex-col items-center justify-center px-6 overflow-hidden"
->
+  <!-- Hero Section -->
+  <section class="relative min-h-[85vh] flex flex-col items-center justify-center px-6 overflow-hidden">
+    <!-- Logo watermark en arrière-plan -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
+      <Logo size="xlarge" className="w-[800px] h-[800px]" />
+    </div>
 
-  <!-- WATERMARK CENTRÉ EXACTEMENT -->
-  <img 
-    src="/watermark.svg"
-    alt=""
-    class="absolute
-           w-[180%] opacity-20 pointer-events-none z-10"
-  />
+    <!-- Formes géométriques décoratives -->
+    <div class="absolute top-20 right-10 w-32 h-32 border-4 border-kivik-light/40 rotate-12"></div>
+    <div class="absolute bottom-32 left-16 w-24 h-24 bg-kivik-green/10 rounded-full"></div>
+    <div class="absolute top-1/3 left-10 w-16 h-16 border-4 border-kivik-green/20"></div>
 
-  <!-- Victor -->
-  <h1 class="text-7xl font-bold text-kivik-green mb-4">
-    Victor
-  </h1>
+    <!-- Contenu principal -->
+    <div class="relative z-10 text-center">
+      <!-- Victor -->
+      <h1 class="text-7xl md:text-8xl font-bold text-kivik-green mb-6 animate-fade-in">
+        Victor
+      </h1>
 
-  <!-- KiViK EXACTEMENT COMME TA MAQUETTE -->
-  <div class="text-[6rem] font-bold tracking-wide leading-none">
-    <span class="text-kivik-light -mr-7">KiVi</span>
-    <span class="text-kivik-green">KiViK</span>
-    <span class="text-kivik-light -ml-7">iViK</span>
-  </div>
+      <!-- KiViK avec effet -->
+      <div class="text-[5rem] md:text-[7rem] font-bold tracking-wide leading-none mb-6">
+        <span class="text-kivik-light/60 -mr-7">KiVi</span>
+        <span class="text-kivik-green relative">
+          KiViK
+          <div class="absolute -bottom-2 left-0 right-0 h-1 bg-kivik-green/30"></div>
+        </span>
+        <span class="text-kivik-light/60 -ml-7">iViK</span>
+      </div>
 
-  <!-- Landwerlin -->
-  <h2 class="text-5xl font-bold text-kivik-green mt-4">
-    Landwerlin
-  </h2>
+      <!-- Landwerlin -->
+      <h2 class="text-4xl md:text-6xl font-bold text-kivik-green mb-8">
+        Landwerlin
+      </h2>
 
-  <!-- baseline -->
-  <p class="mt-6 text-xl text-kivik-green/80">
-    Identité visuelle · Webdesign · Datavisualisation
-  </p>
-
-</section>
-
-
+      <!-- Baseline avec séparateurs -->
+      <div class="flex items-center justify-center gap-4 text-lg md:text-xl text-kivik-green/80">
+        <span>Identité visuelle</span>
+        <span class="w-2 h-2 bg-kivik-green rounded-full"></span>
+        <span>Webdesign</span>
+        <span class="w-2 h-2 bg-kivik-green rounded-full"></span>
+        <span>Datavisualisation</span>
+      </div>
+    </div>
+  </section>
 
   <!-- Présentation -->
-  <section class="py-20 px-6">
-    <div class="container mx-auto max-w-6xl">
-      <h2 class="text-4xl font-bold text-kivik-green mb-8 text-center">Présentation</h2>
+  <section class="py-24 px-6 relative overflow-hidden">
+    <!-- Logo décoratif en fond -->
+    <div class="absolute -right-32 top-0 opacity-5 pointer-events-none">
+      <Logo size="xlarge" className="w-[600px] h-[600px] rotate-12" />
+    </div>
+
+    <div class="container mx-auto max-w-6xl relative z-10">
+      <h2 class="text-5xl font-bold text-kivik-green mb-16 text-center">
+        Présentation
+      </h2>
       
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <!-- Logo -->
-        <div class="flex justify-center">
-          <Logo size="xlarge" animated={true} />
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <!-- Logo avec bordure décorative -->
+        <div class="flex justify-center relative">
+          <div class="absolute inset-0 bg-kivik-light/20 rounded-full blur-3xl"></div>
+          <div class="relative">
+            <Logo size="xlarge" animated={true} />
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 border-4 border-kivik-green/30 rounded-full"></div>
+          </div>
         </div>
 
-        <!-- Texte de présentation -->
-        <div class="space-y-4 text-lg">
-          <p class="text-kivik-green">
-            Je m'appelle Victor Landwerlin, aka <span class="font-bold">KiViK</span>.
+        <!-- Texte avec séparateurs visuels -->
+        <div class="space-y-6 text-xl relative">
+          <div class="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-kivik-green to-transparent"></div>
+          
+          <p class="text-kivik-green leading-relaxed">
+            Je m'appelle Victor Landwerlin, aka <span class="font-bold text-2xl">KiViK</span>.
           </p>
-          <p class="text-kivik-green">
+          <p class="text-kivik-green leading-relaxed">
             Mon terrain de jeu : l'identité visuelle, le webdesign et la dataviz.
           </p>
-          <p class="text-kivik-green">
+          <p class="text-kivik-green leading-relaxed">
             J'explore comment donner du sens aux formes, aux couleurs et aux chiffres.
           </p>
+
+          <div class="pt-6 flex gap-4">
+            <a 
+              href="/a-propos"
+              class="px-6 py-3 bg-kivik-green text-white font-medium hover:bg-kivik-green/90 transition-all hover:scale-105"
+            >
+              En savoir plus
+            </a>
+            <a 
+              href="/contact"
+              class="px-6 py-3 border-2 border-kivik-green text-kivik-green font-medium hover:bg-kivik-green hover:text-white transition-all"
+            >
+              Me contacter
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Projets récents -->
-  <section class="py-20 px-6 bg-white/30">
-    <div class="container mx-auto max-w-6xl">
-      <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Projets récents</h2>
+  <section class="py-24 px-6 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+    <!-- Logos décoratifs -->
+    <div class="absolute -left-32 bottom-20 opacity-5 pointer-events-none">
+      <Logo size="xlarge" className="w-[500px] h-[500px] -rotate-12" />
+    </div>
+
+    <div class="container mx-auto max-w-6xl relative z-10">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl font-bold text-kivik-green mb-4">
+          Projets récents
+        </h2>
+        <div class="w-24 h-1 bg-kivik-green mx-auto"></div>
+      </div>
       
       {displayProjects.length === 0 ? (
-        <div class="text-center py-20">
-          <p class="text-2xl text-kivik-green/60">Aucun projet disponible.</p>
-          <p class="mt-4 text-kivik-green/40">Configure PocketBase pour afficher tes projets !</p>
+        <div class="text-center py-20 bg-white/60 border-2 border-kivik-green/20 rounded-2xl">
+          <div class="mb-6">
+            <Logo size="large" className="mx-auto opacity-20" />
+          </div>
+          <p class="text-2xl text-kivik-green/60 mb-2">Aucun projet disponible.</p>
+          <p class="text-kivik-green/40">Configure PocketBase pour afficher tes projets !</p>
         </div>
       ) : (
         <>
           <div class="grid md:grid-cols-2 gap-8 mb-12">
             {displayProjects.map((project) => {
-              // Obtenir l'URL de l'image correctement
               let imageUrl = '/images/placeholder.jpg';
               
               if (project.image) {
                 if (project.id && project.collectionId) {
-                  // Image depuis PocketBase
                   imageUrl = `http://127.0.0.1:8090/api/files/${project.collectionId}/${project.id}/${project.image}`;
                 } else {
-                  // Image locale (fallback)
                   imageUrl = project.image;
                 }
               }
@@ -138,9 +180,12 @@ const displayProjects = recentProjects.length > 0 ? recentProjects : fallbackPro
           <div class="text-center">
             <a 
               href="/projets"
-              class="inline-block px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+              class="inline-flex items-center gap-3 px-8 py-4 bg-kivik-green text-white text-lg font-medium hover:bg-kivik-green/90 transition-all hover:scale-105 group"
             >
-              voir plus
+              Voir tous les projets
+              <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
             </a>
           </div>
         </>
@@ -148,3 +193,20 @@ const displayProjects = recentProjects.length > 0 ? recentProjects : fallbackPro
     </div>
   </section>
 </Layout>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 1s ease-out;
+  }
+</style>

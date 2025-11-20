@@ -5,79 +5,141 @@ import Logo from '../components/Logo.astro';
 ---
 
 <Layout title="À propos" currentPath="/a-propos">
-  <!-- Titre de la page -->
-  <section class="py-5">
-    <div class="container mx-auto max-w-6xl">
-      <h1 class="text-8xl font-bold text-kivik-green text-center mb-20">
+  <!-- Titre de la page avec décoration -->
+  <section class="py-12 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
+      <Logo size="xlarge" className="absolute -top-20 -right-20 w-[400px] h-[400px] rotate-45" />
+      <Logo size="xlarge" className="absolute -bottom-20 -left-20 w-[400px] h-[400px] -rotate-45" />
+    </div>
+    
+    <div class="container mx-auto max-w-6xl relative z-10">
+      <h1 class="text-8xl md:text-9xl font-bold text-kivik-green text-center mb-4">
         À propos
       </h1>
+      <div class="w-32 h-1 bg-kivik-green mx-auto"></div>
     </div>
   </section>
 
   <!-- Présentation -->
-  <section class="py-12 px-6">
+  <section class="py-20 px-6 relative">
     <div class="container mx-auto max-w-6xl">
-      <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Présentation</h2>
+      <h2 class="text-5xl font-bold text-kivik-green mb-16 text-center">Présentation</h2>
       
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <!-- Logo -->
-        <div class="flex justify-center">
-          <Logo size="xlarge" animated={true} />
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <!-- Logo avec effet de halo -->
+        <div class="flex justify-center relative">
+          <div class="absolute inset-0 bg-gradient-radial from-kivik-light/30 to-transparent rounded-full blur-3xl"></div>
+          <div class="relative">
+            <Logo size="xlarge" animated={true} />
+            <!-- Cercles décoratifs autour du logo -->
+            <div class="absolute -top-8 -left-8 w-32 h-32 border-2 border-kivik-green/20 rounded-full"></div>
+            <div class="absolute -bottom-8 -right-8 w-24 h-24 border-2 border-kivik-light/40 rounded-full"></div>
+          </div>
         </div>
 
-        <!-- Texte de présentation -->
-        <div class="space-y-6 text-lg">
-          <p class="text-kivik-green">
-            Je m'appelle Victor Landwerlin, aka <span class="font-bold">KiViK</span>.
-          </p>
-          <p class="text-kivik-green">
-            Mon terrain de jeu : l'identité visuelle, le webdesign et la dataviz.
-          </p>
-          <p class="text-kivik-green">
-            J'explore comment donner du sens aux formes, aux couleurs et aux chiffres.
-          </p>
+        <!-- Texte avec design amélioré -->
+        <div class="space-y-8 text-xl relative">
+          <div class="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-kivik-green via-kivik-light to-transparent"></div>
+          
+          <div class="space-y-6 pl-4">
+            <p class="text-kivik-green leading-relaxed">
+              Je m'appelle Victor Landwerlin, aka <span class="font-bold text-2xl bg-kivik-light/30 px-2 py-1">KiViK</span>.
+            </p>
+            <p class="text-kivik-green leading-relaxed">
+              Mon terrain de jeu : l'identité visuelle, le webdesign et la dataviz.
+            </p>
+            <p class="text-kivik-green leading-relaxed">
+              J'explore comment donner du sens aux formes, aux couleurs et aux chiffres.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Compétences -->
-  <section class="py-20 px-6 bg-white/30">
-    <div class="container mx-auto max-w-4xl">
-      <h2 class="text-4xl font-bold text-kivik-green mb-12 text-center">Compétences</h2>
+  <!-- Compétences avec cards -->
+  <section class="py-24 px-6 bg-gradient-to-b from-white/50 to-transparent relative overflow-hidden">
+    <!-- Logo en fond -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-5 pointer-events-none">
+      <Logo size="xlarge" className="w-[800px] h-[800px]" />
+    </div>
+
+    <div class="container mx-auto max-w-5xl relative z-10">
+      <h2 class="text-5xl font-bold text-kivik-green mb-16 text-center">Compétences</h2>
       
-      <div class="space-y-6 text-2xl">
-        <div class="text-kivik-green font-bold">
-          Identité visuelle
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <!-- Identité visuelle -->
+        <div class="bg-white border-4 border-kivik-green p-8 hover:shadow-2xl transition-all hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-kivik-green rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-kivik-green mb-3">Identité visuelle</h3>
+          <p class="text-kivik-green/70">Création de logos, chartes graphiques et univers de marque</p>
         </div>
-        <div class="text-kivik-green font-bold">
-          Webdesign (UI/UX)
+
+        <!-- Webdesign -->
+        <div class="bg-white border-4 border-kivik-green p-8 hover:shadow-2xl transition-all hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-kivik-green rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-kivik-green mb-3">Webdesign</h3>
+          <p class="text-kivik-green/70">Conception UI/UX et interfaces web modernes</p>
         </div>
-        <div class="text-kivik-green font-bold">
-          Datavisualisation
+
+        <!-- Datavisualisation -->
+        <div class="bg-white border-4 border-kivik-green p-8 hover:shadow-2xl transition-all hover:-translate-y-2 group">
+          <div class="w-16 h-16 bg-kivik-green rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-kivik-green mb-3">Datavisualisation</h3>
+          <p class="text-kivik-green/70">Visualisation et mise en forme de données complexes</p>
         </div>
-        <div class="text-kivik-green font-medium mt-8">
-          Outils : Figma · Astro · Tailwind · Observable
+      </div>
+
+      <!-- Outils -->
+      <div class="bg-kivik-light/20 border-2 border-kivik-green/30 p-8 text-center">
+        <p class="text-xl text-kivik-green font-medium mb-4">Outils maîtrisés</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          {['Figma', 'Illustrator', 'Astro', 'Tailwind', 'Observable'].map((tool) => (
+            <span class="px-6 py-2 bg-white border-2 border-kivik-green text-kivik-green font-medium hover:bg-kivik-green hover:text-white transition-colors">
+              {tool}
+            </span>
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Boutons CTA -->
-  <section class="py-20 px-6">
-    <div class="container mx-auto max-w-4xl">
+  <!-- Boutons CTA avec meilleur design -->
+  <section class="py-24 px-6">
+    <div class="container mx-auto max-w-4xl text-center">
+      <h2 class="text-4xl font-bold text-kivik-green mb-12">Travaillons ensemble !</h2>
+      
       <div class="flex flex-wrap gap-6 justify-center">
         <a 
           href="/contact"
-          class="px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+          class="group px-10 py-4 bg-kivik-green text-white text-lg font-medium hover:bg-kivik-green/90 transition-all hover:scale-105 flex items-center gap-3"
         >
-          me contacter
+          Me contacter
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+          </svg>
         </a>
         <a 
           href="/projets"
-          class="px-8 py-3 bg-white border-2 border-kivik-green text-kivik-green font-medium rounded-none hover:bg-kivik-green hover:text-white transition-colors"
+          class="group px-10 py-4 border-2 border-kivik-green text-kivik-green text-lg font-medium hover:bg-kivik-green hover:text-white transition-all hover:scale-105 flex items-center gap-3"
         >
-          voir mes projets
+          Voir mes projets
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
         </a>
       </div>
     </div>

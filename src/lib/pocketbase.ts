@@ -3,7 +3,7 @@ import PocketBase from 'pocketbase';
 
 // URL de ton instance PocketBase
 // Utilise la variable d'environnement ou fallback sur localhost
-const POCKETBASE_URL = import.meta.env.PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090';
+const POCKETBASE_URL = import.meta.env.PUBLIC_POCKETBASE_URL || 'https://portfolio.victor-landwerlin.fr:443';
 export const pb = new PocketBase(POCKETBASE_URL);
 
 // Type pour les projets
